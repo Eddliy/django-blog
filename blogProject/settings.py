@@ -26,7 +26,7 @@ SECRET_KEY = 'bex@wx&@an0x-$qaoe&jvv=^pim*o1u8j%7jk491hnoc0u+ja#'
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '47.112.136.63']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '111.67.197.68']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'comments',
+    'gunicorn',
 ]
 
 MIDDLEWARE = [
