@@ -138,68 +138,9 @@
             {% block toc %}
                 <div class="widget widget-content">
                     <h3 class="widget-title">文章目录</h3>
-                    <ul>
-                        <li>
-                            <a href="#">教程特点</a>
-                        </li>
-                        <li>
-                            <a href="#">谁适合这个教程</a>
-                        </li>
-                        <li>
-                            <a href="#">在线预览</a>
-                        </li>
-                        <li>
-                            <a href="#">资源列表</a>
-                        </li>
-                        <li>
-                            <a href="#">获取帮助</a>
-                        </li>
-                    </ul>
+                    {{ post.toc|safe }}
                 </div>
-                <div class="widget widget-recent-posts">
-                    <h3 class="widget-title">最新文章</h3>
-                    <ul>
-                        <li>
-                            <a href="#">Django 博客开发入门教程：前言</a>
-                        </li>
-                        <li>
-                            <a href="#">Django 博客使用 Markdown 自动生成文章目录</a>
-                        </li>
-                        <li>
-                            <a href="#">部署 Django 博客</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="widget widget-archives">
-                    <h3 class="widget-title">归档</h3>
-                    <ul>
-                        <li>
-                            <a href="#">2017 年 5 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 4 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 3 月</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="widget widget-category">
-                    <h3 class="widget-title">分类</h3>
-                    <ul>
-                        <li>
-                            <a href="#">Django 博客教程 <span class="post-count">(13)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Python 教程 <span class="post-count">(11)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Django 用户认证 <span class="post-count">(8)</span></a>
-                        </li>
-                    </ul>
-                </div>
-
+            {% endblock toc %}
                 <div class="widget widget-tag-cloud">
                     <h3 class="widget-title">标签云</h3>
                     <ul>
@@ -238,7 +179,6 @@
                 <div class="rss">
                     <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
                 </div>
-            {% endblock toc %}
         </div>
     </div>
 </div>

@@ -68,6 +68,9 @@
     <div class="container">
         <div class="row">
             {% block main %}
+              {% if error_msg %}
+              <p>{{ error_msg }}</p>
+              {% endif %}
                 {% for post in post_list %}
                     <article class="post post-{{ post.pk }}">
                         <header class="entry-header">
@@ -84,7 +87,8 @@
                             </div>
                         </header>
                         <div class="entry-content clearfix">
-                            <p>{{ post.excerpt }}</p>
+                            <!--<p>{{ post.excerpt }}</p>-->
+                            <p>{{ post.body|truncatechars:15 }}</p>
                             <div class="read-more cl-effect-14">
                                 <a href="{{ post.get_absolute_url }}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
                             </div>
@@ -93,107 +97,38 @@
                 {% empty %}
                     <div class="no-post">暂时还没有发布的文章！</div>
                 {% endfor %}
-                <!-- 简单分页效果
-                <div class="pagination-simple">
-                    <a href="#">上一页</a>
-                    <span class="current">第 6 页 / 共 11 页</span>
-                    <a href="#">下一页</a>
-                </div>
-                -->
+
+
+            {% if is_paginated %}
                 <div class="pagination">
-                    <ul>
-                        <li><a href="">1</a></li>
-                        <li><a href="">...</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <li class="current"><a href="">6</a></li>
-                        <li><a href="">7</a></li>
-                        <li><a href="">8</a></li>
-                        <li><a href="">...</a></li>
-                        <li><a href="">11</a></li>
-                    </ul>
+                  {% if first %}
+                    <a href="?page=1">1</a>
+                  {% endif %}
+                  {% if left %}
+                    {% if left_has_more %}
+                        <span>...</span>
+                    {% endif %}
+                    {% for i in left %}
+                        <a href="?page={{ i }}">{{ i }}</a>
+                    {% endfor %}
+                  {% endif %}
+                  <a href="?page={{ page_obj.number }}" style="color: red">{{ page_obj.number }}</a>
+                  {% if right %}
+                    {% for i in right %}
+                        <a href="?page={{ i }}">{{ i }}</a>
+                    {% endfor %}
+                    {% if right_has_more %}
+                        <span>...</span>
+                    {% endif %}
+                  {% endif %}
+                  {% if last %}
+                    <a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+                  {% endif %}
                 </div>
-            {% endblock main %}
+            {% endif %}
+        {% endblock main %}
             <aside class="col-md-4">
-                <div class="widget widget-recent-posts">
-                    <h3 class="widget-title">最新文章</h3>
-                    <ul>
-                        <li>
-                            <a href="#">Django 博客开发入门教程：前言</a>
-                        </li>
-                        <li>
-                            <a href="#">Django 博客使用 Markdown 自动生成文章目录</a>
-                        </li>
-                        <li>
-                            <a href="#">部署 Django 博客</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="widget widget-archives">
-                    <h3 class="widget-title">归档</h3>
-                    <ul>
-                        <li>
-                            <a href="#">2017 年 5 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 4 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 3 月</a>
-                        </li>
-                    </ul>
-                </div>
 
-                <div class="widget widget-category">
-                    <h3 class="widget-title">分类</h3>
-                    <ul>
-                        <li>
-                            <a href="#">Django 博客教程 <span class="post-count">(13)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Python 教程 <span class="post-count">(11)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Django 用户认证 <span class="post-count">(8)</span></a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="widget widget-tag-cloud">
-                    <h3 class="widget-title">标签云</h3>
-                    <ul>
-                        <li>
-                            <a href="#">Django</a>
-                        </li>
-                        <li>
-                            <a href="#">Python</a>
-                        </li>
-                        <li>
-                            <a href="#">Java</a>
-                        </li>
-                        <li>
-                            <a href="#">笔记</a>
-                        </li>
-                        <li>
-                            <a href="#">文档</a>
-                        </li>
-                        <li>
-                            <a href="#">AngularJS</a>
-                        </li>
-                        <li>
-                            <a href="#">CSS</a>
-                        </li>
-                        <li>
-                            <a href="#">JavaScript</a>
-                        </li>
-                        <li>
-                            <a href="#">Snippet</a>
-                        </li>
-                        <li>
-                            <a href="#">jQuery</a>
-                        </li>
-                    </ul>
-                </div>
                 <div class="rss">
                     <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
                 </div>
