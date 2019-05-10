@@ -9,15 +9,11 @@ from markdown.extensions.toc import TocExtension
 from django.db.models import Q
 
 
-# def index(request):
-#     # post_list = Post.objects.all().order_by('-created_time')
-#     post_list = Post.objects.all()
-#     return render(request, 'blog/index.html', context={'post_list': post_list})
 class IndexView(ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
-    paginate_by = 2
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         # 首先获得父类生成的传递给模板的字典。
@@ -115,25 +111,6 @@ class IndexView(ListView):
         return data
 
 
-# def detail(request, pk):
-#     post = get_object_or_404(Post, pk=pk)
-#     post.increase_views()
-#
-#     post.body = markdown.markdown(
-#         post.body,
-#         extensions=[
-#             'markdown.extensions.extra',
-#             'markdown.extensions.codehilite',
-#             'markdown.extensions.toc',
-#         ]
-#     )
-#     form = CommentForm()
-#     comment_list = post.comment_set.all()
-#     context = {'post': post,
-#                'form': form,
-#                'comment_list': comment_list
-#                }
-#     return render(request, 'blog/detail.html', context=context)
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/detail.html'
@@ -144,23 +121,8 @@ class PostDetailView(DetailView):
         self.object.increase_views()
         return response
 
-    # def get_object(self, queryset=None):
-        # post = super(PostDetailView, self).get_object(queryset=None)
-        # post.body = markdown.markdown(post.body,
-        #                               extensions=[
-        #                                   'markdown.extensions.extra',
-        #                                   'markdown.extensions.codehilite',
-        #                                   'markdown.extensions.toc',
-        #                               ])
-        # return post
-
     def get_object(self, queryset=None):
         post = super(PostDetailView, self).get_object(queryset=None)
-        # md = markdown.Markdown(extensions=[
-        #     'markdown.extensions.extra',
-        #     'markdown.extensions.codehilite',
-        #     'markdown.extensions.toc',
-        # ])
         md = markdown.Markdown(extensions=[
             'markdown.extensions.extra',
             'markdown.extensions.codehilite',
@@ -181,11 +143,6 @@ class PostDetailView(DetailView):
         return context
 
 
-# def archives(request, year, month):
-#     post_list = Post.objects.filter(created_time__year=year,
-#                                     created_time__month=month
-#                                     ).order_by('-created_time')
-#     return render(request, 'blog/index.html', context={'post_list': post_list})
 class ArchivesView(IndexView):
     def get_queryset(self):
         year = self.kwargs.get('year')
@@ -193,10 +150,6 @@ class ArchivesView(IndexView):
         return super(ArchivesView, self).get_queryset().filter(created_time__year=year, created_time__month=month)
 
 
-# def category(request, pk):
-#     cate = get_object_or_404(Category, pk=pk)
-#     post_list = Post.objects.filter(category=cate).order_by('-created_time')
-#     return render(request, 'blog/index.html', context={'post_list': post_list})
 class CategoryView(IndexView):
     def get_queryset(self):
         cate = get_object_or_404(Category, pk=self.kwargs.get('pk'))
@@ -220,3 +173,21 @@ def search(request):
     post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
     return render(request, 'blog/index.html', {'error_msg': error_msg,
                                                'post_list': post_list})
+
+
+class FullView(ListView):
+    model = Post
+    template_name = 'blog/full-width.html'
+    context_object_name = 'post_list'
+    paginate_by = 4
+
+
+class AboutView(ListView):
+    model = Post
+    template_name = 'blog/about.html'
+
+
+class ContactView(ListView):
+    model = Post
+    template_name = 'blog/contact.html'
+

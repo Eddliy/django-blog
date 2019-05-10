@@ -2,167 +2,72 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-<head>
-    <title>木子居</title>
+    <head>
+    </head>
+    <body>
+        <div class="content-body">
+            <div class="container">
+                <div class="row">
+                    {% block main %}
+                      {% if error_msg %}
+                      <p>{{ error_msg }}</p>
+                      {% endif %}
+                        {% for post in post_list %}
+                            <article class="post post-{{ post.pk }}">
+                                <header class="entry-header">
+                                    <h1 class="entry-title">
+                                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                    </h1>
+                                    <div class="entry-meta">
+                                        <span class="post-category"><a href="#">{{ post.category.name }}</a></span>
+                                        <span class="post-date"><a href="#"><time class="entry-date"
+                                                                                  datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
+                                        <span class="post-author"><a href="#">{{ post.author }}</a></span>
+                                        <span class="comments-link"><a href="#">{{ post.comment_set.count }} 评论</a></span>
+                                        <span class="views-count"><a href="#">{{ post.views }} 阅读</a></span>
+                                    </div>
+                                </header>
+                                <div class="entry-content clearfix">
+                                    <p>{{ post.body|truncatechars:15 }}</p>
+                                    <div class="read-more cl-effect-14">
+                                        <a href="{{ post.get_absolute_url }}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
+                                    </div>
+                                </div>
+                            </article>
+                        {% empty %}
+                            <div class="no-post">暂时还没有发布的文章！</div>
+                        {% endfor %}
 
-    <!-- meta -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- css -->
-    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{% static 'blog/css/pace.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/css/custom.css' %}">
-
-    <!-- js -->
-    <script src="{% static 'blog/js/jquery-2.1.3.min.js' %}"></script>
-    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'blog/js/pace.min.js' %}"></script>
-    <script src="{% static 'blog/js/modernizr.custom.js' %}"></script>
-</head>
-
-<body>
-<div class="container">
-    <header id="site-header">
-        <div class="row">
-            <div class="col-md-4 col-sm-5 col-xs-8">
-                <div class="logo">
-                    <h1><a href="index.html"><b>木子居</b></a></h1>
-                </div>
-            </div><!-- col-md-4 -->
-            <div class="col-md-8 col-sm-7 col-xs-4">
-                <nav class="main-nav" role="navigation">
-                    <div class="navbar-header">
-                        <button type="button" id="trigger-overlay" class="navbar-toggle">
-                            <span class="ion-navicon"></span>
-                        </button>
-                    </div>
-
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="cl-effect-11"><a href="index.html" data-hover="首页">首页</a></li>
-                            <li class="cl-effect-11"><a href="full-width.html" data-hover="博客">博客</a></li>
-                            <li class="cl-effect-11"><a href="about.html" data-hover="关于">关于</a></li>
-                            <li class="cl-effect-11"><a href="contact.html" data-hover="联系">联系</a></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </nav>
-                <div id="header-search-box">
-                    <a id="search-menu" href="#"><span id="search-icon" class="ion-ios-search-strong"></span></a>
-                    <div id="search-form" class="search-form">
-                        <form role="search" method="get" id="searchform" action="#">
-                            <input type="search" placeholder="搜索" required>
-                            <button type="submit"><span class="ion-ios-search-strong"></span></button>
-                        </form>
-                    </div>
-                </div>
-            </div><!-- col-md-8 -->
-        </div>
-    </header>
-</div>
-<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">网页模板</a></div>
-<div class="copyrights">Modified by <a href="http://zmrenwu.com/">追梦人物的博客</a></div>
-
-<div class="content-body">
-    <div class="container">
-        <div class="row">
-            {% block main %}
-              {% if error_msg %}
-              <p>{{ error_msg }}</p>
-              {% endif %}
-                {% for post in post_list %}
-                    <article class="post post-{{ post.pk }}">
-                        <header class="entry-header">
-                            <h1 class="entry-title">
-                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                            </h1>
-                            <div class="entry-meta">
-                                <span class="post-category"><a href="#">{{ post.category.name }}</a></span>
-                                <span class="post-date"><a href="#"><time class="entry-date"
-                                                                          datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
-                                <span class="post-author"><a href="#">{{ post.author }}</a></span>
-                                <span class="comments-link"><a href="#">{{ post.comment_set.count }} 评论</a></span>
-                                <span class="views-count"><a href="#">{{ post.views }} 阅读</a></span>
-                            </div>
-                        </header>
-                        <div class="entry-content clearfix">
-                            <!--<p>{{ post.excerpt }}</p>-->
-                            <p>{{ post.body|truncatechars:15 }}</p>
-                            <div class="read-more cl-effect-14">
-                                <a href="{{ post.get_absolute_url }}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
-                            </div>
+                    {% if is_paginated %}
+                        <div class="pagination">
+                          {% if first %}
+                            <a href="?page=1">1</a>
+                          {% endif %}
+                          {% if left %}
+                            {% if left_has_more %}
+                                <span>...</span>
+                            {% endif %}
+                            {% for i in left %}
+                                <a href="?page={{ i }}">{{ i }}</a>
+                            {% endfor %}
+                          {% endif %}
+                          <a href="?page={{ page_obj.number }}" style="color: red">{{ page_obj.number }}</a>
+                          {% if right %}
+                            {% for i in right %}
+                                <a href="?page={{ i }}">{{ i }}</a>
+                            {% endfor %}
+                            {% if right_has_more %}
+                                <span>...</span>
+                            {% endif %}
+                          {% endif %}
+                          {% if last %}
+                            <a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+                          {% endif %}
                         </div>
-                    </article>
-                {% empty %}
-                    <div class="no-post">暂时还没有发布的文章！</div>
-                {% endfor %}
-
-
-            {% if is_paginated %}
-                <div class="pagination">
-                  {% if first %}
-                    <a href="?page=1">1</a>
-                  {% endif %}
-                  {% if left %}
-                    {% if left_has_more %}
-                        <span>...</span>
                     {% endif %}
-                    {% for i in left %}
-                        <a href="?page={{ i }}">{{ i }}</a>
-                    {% endfor %}
-                  {% endif %}
-                  <a href="?page={{ page_obj.number }}" style="color: red">{{ page_obj.number }}</a>
-                  {% if right %}
-                    {% for i in right %}
-                        <a href="?page={{ i }}">{{ i }}</a>
-                    {% endfor %}
-                    {% if right_has_more %}
-                        <span>...</span>
-                    {% endif %}
-                  {% endif %}
-                  {% if last %}
-                    <a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
-                  {% endif %}
+                {% endblock main %}
                 </div>
-            {% endif %}
-        {% endblock main %}
-            <aside class="col-md-4">
-
-                <div class="rss">
-                    <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
-                </div>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer id="site-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <!--<p class="copyright">&copy 2017 - 采集自<a href="http://www.cssmoban.com/"-->
-                                                        <!--target="_blank" title="模板之家">模板之家</a>-->
-                    <!-- - 由<a href="http://zmrenwu.com/" title="网页模板" target="_blank">追梦人物的博客</a>修改-->
-                <!--</p>-->
             </div>
         </div>
-    </div>
-</footer>
-
-<!-- Mobile Menu -->
-<div class="overlay overlay-hugeinc">
-    <button type="button" class="overlay-close"><span class="ion-ios-close-empty"></span></button>
-    <nav>
-        <ul>
-            <li><a href="index.html">首页</a></li>
-            <li><a href="full-width.html">博客</a></li>
-            <li><a href="about.html">关于</a></li>
-            <li><a href="contact.html">联系</a></li>
-        </ul>
-    </nav>
-</div>
-
-<script src="{% static 'blog/js/script.js' %}"></script>
-
-</body>
+    </body>
 </html>
