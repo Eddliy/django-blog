@@ -1,35 +1,24 @@
 {% extends 'other.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html>
-	<head>
-    </head>
-	<body id="page">
-		<div class="content-body">
-			<div class="container">
-				<div class="row">
-					{% block main %}
-						<h1 class="page-title">About Me</h1>
-						<article class="post">
-							<div class="entry-content clearfix">
-								<figure class="img-responsive-center">
-									<img class="img-responsive" src="{% static 'blog/img/me.jpg' %}" alt="Developer Image">
-								</figure>
-								<p align="center">我叫Eddie。这是第一句。说完了。</p>
-                                <p align="center">爱情不是我人生的一切，但我愿倾我一生去爱。</p>
-								<div class="height-40px"></div>
-								<h2 class="title text-center">Social</h2>
-								<ul class="social">
-									<li class="facebook"><a href="#"><span class="ion-social-facebook"></span></a></li>
-									<li class="twitter"><a href="#"><span class="ion-social-twitter"></span></a></li>
-									<li class="google-plus"><a href="#"><span class="ion-social-googleplus"></span></a></li>
-									<li class="tumblr"><a href="#"><span class="ion-social-tumblr"></span></a></li>
-								</ul>
-							</div>
-						</article>
-					{% endblock main %}
-				</div>
+
+	{% block main %}
+		<h1 class="page-title">About Me</h1>
+		<article class="post">
+			<div class="entry-content clearfix">
+				<figure class="img-responsive-center">
+					<img class="img-responsive" src="{% static 'blog/img/me.jpg' %}" alt="Developer Image">
+				</figure>
+				<p align="center">我叫Eddie。这是第一句。说完了。</p>
+				<p align="center">爱情不是我人生的一切，但我愿倾我一生去爱。</p>
+				<div class="height-40px"></div>
+				<h2 class="title text-center">Social</h2>
+				<ul class="social">
+					<li class="facebook"><a href="#"><span class="ion-social-facebook"></span></a></li>
+					<li class="twitter"><a href="#"><span class="ion-social-twitter"></span></a></li>
+					<li class="google-plus"><a href="#"><span class="ion-social-googleplus"></span></a></li>
+					<li class="tumblr"><a href="#"><span class="ion-social-tumblr"></span></a></li>
+				</ul>
 			</div>
-		</div>
-	</body>
-</html>
+		</article>
+	{% endblock main %}
+
